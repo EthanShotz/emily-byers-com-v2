@@ -4,6 +4,18 @@ export const Hero = () => {
   return (
     <section className="py-20 px-6 md:px-10">
       <div className="max-w-6xl mx-auto">
+        <motion.div
+          initial={{ opacity: 0, y: -20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5 }}
+          className="mb-16"
+        >
+          <img
+            src="/lovable-uploads/02d5cee0-256c-406d-baf2-02fe8db2836c.png"
+            alt="Paws & Pixels Logo"
+            className="h-24 md:h-32 mx-auto"
+          />
+        </motion.div>
         <div className="flex flex-col md:flex-row items-center gap-10">
           <motion.div 
             initial={{ opacity: 0, x: -20 }}
