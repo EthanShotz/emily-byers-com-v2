@@ -2,8 +2,8 @@ import { motion } from "framer-motion";
 
 export const Contact = () => {
   return (
-    <section className="py-20 px-6 bg-gray-50 min-h-screen">
-      <div className="max-w-3xl mx-auto flex flex-col h-full">
+    <section className="py-20 px-6 bg-gray-50 min-h-screen flex">
+      <div className="max-w-3xl mx-auto flex flex-col flex-grow w-full">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -17,7 +17,7 @@ export const Contact = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="bg-white p-8 rounded-xl shadow-lg flex-grow"
+          className="bg-white p-8 rounded-xl shadow-lg flex-grow flex"
         >
           <iframe
             id="JotFormIFrame-243464146391155"
@@ -27,6 +27,7 @@ export const Contact = () => {
               width: '100%',
               height: '100%',
               border: 'none',
+              minHeight: '600px', // Added minimum height
             }}
             scrolling="no"
           />
