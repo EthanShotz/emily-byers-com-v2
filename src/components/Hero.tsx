@@ -34,9 +34,6 @@ export const Hero = () => {
                 alt="Emily and her dog"
                 className="relative rounded-2xl shadow-lg w-full z-10"
               />
-              <div className="absolute -bottom-4 -right-4 bg-primary text-white px-6 py-2 rounded-full shadow-lg z-20">
-                Paws & Pixels
-              </div>
             </div>
           </motion.div>
           <motion.div 
