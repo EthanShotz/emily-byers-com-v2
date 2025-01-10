@@ -13,51 +13,73 @@ export const Contact = () => {
           <h2 className="text-3xl font-bold mb-4">Let's Get Started!</h2>
           <div className="w-20 h-1 bg-primary mx-auto"></div>
         </motion.div>
-        <motion.form
+        <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
           className="bg-white p-8 rounded-xl shadow-lg"
         >
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-6">
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Full Name *
-              </label>
-              <input
-                type="text"
-                required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-              />
-            </div>
-            <div>
-              <label className="block text-sm font-medium text-gray-700 mb-2">
-                Email *
-              </label>
-              <input
-                type="email"
-                required
-                className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-              />
-            </div>
-          </div>
-          <div className="mb-6">
-            <label className="block text-sm font-medium text-gray-700 mb-2">
-              Message *
-            </label>
-            <textarea
-              required
-              rows={4}
-              className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-            ></textarea>
-          </div>
-          <button
-            type="submit"
-            className="w-full bg-primary text-white py-3 rounded-lg hover:bg-primary/90 transition-colors"
-          >
-            Send Message
-          </button>
-        </motion.form>
+          <iframe
+            id="JotFormIFrame-243464146391155"
+            title="Contact Form"
+            src="https://form.jotform.com/243464146391155"
+            style={{
+              minWidth: '100%',
+              height: '539px',
+              border: 'none',
+            }}
+            scrolling="no"
+          />
+          <script
+            type="text/javascript"
+            dangerouslySetInnerHTML={{
+              __html: `
+                var ifr = document.getElementById("JotFormIFrame-243464146391155");
+                if (ifr) {
+                  var src = ifr.src;
+                  var iframeParams = [];
+                  if (window.location.href && window.location.href.indexOf("?") > -1) {
+                    iframeParams = iframeParams.concat(window.location.href.substr(window.location.href.indexOf("?") + 1).split('&'));
+                  }
+                  if (src && src.indexOf("?") > -1) {
+                    iframeParams = iframeParams.concat(src.substr(src.indexOf("?") + 1).split("&"));
+                    src = src.substr(0, src.indexOf("?"))
+                  }
+                  iframeParams.push("isIframeEmbed=1");
+                  ifr.src = src + "?" + iframeParams.join('&');
+                }
+                window.handleIFrameMessage = function(e) {
+                  if (typeof e.data === 'object') { return; }
+                  var args = e.data.split(":");
+                  if (args.length > 2) { iframe = document.getElementById("JotFormIFrame-" + args[(args.length - 1)]); } else { iframe = document.getElementById("JotFormIFrame"); }
+                  if (!iframe) { return; }
+                  switch (args[0]) {
+                    case "scrollIntoView":
+                      iframe.scrollIntoView();
+                      break;
+                    case "setHeight":
+                      iframe.style.height = args[1] + "px";
+                      break;
+                    case "collapseErrorPage":
+                      if (iframe.clientHeight > window.innerHeight) {
+                        iframe.style.height = window.innerHeight + "px";
+                      }
+                      break;
+                    case "reloadPage":
+                      window.location.reload();
+                      break;
+                  }
+                  var isJotForm = (e.origin.indexOf("jotform") > -1) ? true : false;
+                  if(isJotForm && "contentWindow" in iframe && "postMessage" in iframe.contentWindow) {
+                    var urls = {"docurl":encodeURIComponent(document.URL),"referrer":encodeURIComponent(document.referrer)};
+                    iframe.contentWindow.postMessage(JSON.stringify({"type":"urls","value":urls}), "*");
+                  }
+                };
+                window.addEventListener("message", handleIFrameMessage, false);
+              `,
+            }}
+          />
+        </motion.div>
       </div>
     </section>
   );
