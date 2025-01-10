@@ -9,16 +9,19 @@ export const Hero = () => {
             initial={{ opacity: 0, x: -20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.5 }}
-            className="md:w-1/2"
+            className="md:w-1/2 w-full"
           >
-            <div className="relative">
-              <div className="absolute inset-4 bg-[#E66F52] rounded-2xl transform rotate-3"></div>
+            <div className="relative w-full max-w-md mx-auto">
+              <div 
+                className="absolute inset-0 bg-[#E66F52] rounded-2xl transform rotate-3 translate-x-4 translate-y-4"
+                aria-hidden="true"
+              ></div>
               <img
                 src="/lovable-uploads/5953c067-4330-43ec-a3b3-e6f9fadabf17.png"
                 alt="Emily and her dog"
-                className="relative rounded-2xl shadow-lg w-full max-w-md mx-auto"
+                className="relative rounded-2xl shadow-lg w-full z-10"
               />
-              <div className="absolute -bottom-4 -right-4 bg-primary text-white px-6 py-2 rounded-full shadow-lg">
+              <div className="absolute -bottom-4 -right-4 bg-primary text-white px-6 py-2 rounded-full shadow-lg z-20">
                 Paws & Pixels
               </div>
             </div>
