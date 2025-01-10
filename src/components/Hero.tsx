@@ -1,4 +1,5 @@
 import { motion } from "framer-motion";
+import { Facebook, Instagram } from "lucide-react";
 
 export const Hero = () => {
   return (
@@ -53,7 +54,7 @@ export const Hero = () => {
             <p className="text-gray-600 mb-8">
               Specializing in preserving cherished memories through expert digitization, restoration, and pet photography services. I infuse passion and expertise with artistic creativity to deliver personalized, high-quality results that you'll treasure for years to come.
             </p>
-            <div className="flex gap-4 justify-center md:justify-start">
+            <div className="flex gap-4 justify-center md:justify-start mb-6">
               <button className="bg-primary text-white px-6 py-3 rounded-lg hover:bg-primary/90 transition-colors">
                 View My Work
               </button>
@@ -61,6 +62,31 @@ export const Hero = () => {
                 Let's Connect
               </button>
             </div>
+            <motion.div 
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.5, delay: 0.4 }}
+              className="flex gap-4 justify-center md:justify-start"
+            >
+              <a
+                href="https://www.instagram.com/ebdigitalmediaservices"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:text-primary/80 transition-colors"
+                aria-label="Visit our Instagram page"
+              >
+                <Instagram className="w-6 h-6" />
+              </a>
+              <a
+                href="https://www.facebook.com/EBDigitalMediaServices"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="text-primary hover:text-primary/80 transition-colors"
+                aria-label="Visit our Facebook page"
+              >
+                <Facebook className="w-6 h-6" />
+              </a>
+            </motion.div>
           </motion.div>
         </div>
       </div>
