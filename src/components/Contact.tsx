@@ -22,7 +22,7 @@ export const Contact = () => {
           <iframe
             id="JotFormIFrame-243464146391155"
             title="Contact Form"
-            src="https://form.jotform.com/243464146391155"
+            src="https://form.jotform.com/243464146391155?hideHeader=1&hideFooter=1"
             style={{
               minWidth: '100%',
               height: '539px',
