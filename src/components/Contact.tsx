@@ -8,7 +8,10 @@ export const Contact = () => {
     if (!formContainer) {
       formContainer = document.createElement("div");
       formContainer.id = "jotform-container";
-      document.body.appendChild(formContainer);
+      const sectionContainer = document.querySelector('.contact-form-container');
+      if (sectionContainer) {
+        sectionContainer.appendChild(formContainer);
+      }
     }
 
     // Create and add script after container exists
@@ -62,9 +65,8 @@ export const Contact = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="bg-white p-8 rounded-xl shadow-lg"
+          className="bg-white p-8 rounded-xl shadow-lg contact-form-container"
         >
-          <div id="jotform-container" />
         </motion.div>
       </div>
     </section>
