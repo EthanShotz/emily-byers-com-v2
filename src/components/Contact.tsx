@@ -7,21 +7,31 @@ export const Contact = () => {
     script.src = "https://form.jotform.com/jsform/243464146391155";
     script.type = "text/javascript";
     script.async = true;
+    script.crossOrigin = "anonymous";
+    
+    // Error handling for the script
+    script.onerror = (error) => {
+      console.error("Error loading JotForm script:", error);
+    };
     
     // Find or create container for the form
     let formContainer = document.getElementById("jotform-container");
     if (!formContainer) {
       formContainer = document.createElement("div");
       formContainer.id = "jotform-container";
+      document.body.appendChild(formContainer);
     }
     
-    // Append script to the container
-    formContainer.appendChild(script);
+    // Append script to the document head instead of the container
+    document.head.appendChild(script);
 
     return () => {
       // Cleanup on unmount
-      if (formContainer && script) {
-        formContainer.removeChild(script);
+      if (script.parentNode) {
+        script.parentNode.removeChild(script);
+      }
+      if (formContainer && formContainer.parentNode) {
+        formContainer.parentNode.removeChild(formContainer);
       }
     };
   }, []);
