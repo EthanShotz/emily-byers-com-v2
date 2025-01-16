@@ -1,57 +1,9 @@
 import { motion } from "framer-motion";
-import { useEffect } from "react";
 
 export const Contact = () => {
-  useEffect(() => {
-    // Create container first
-    let formContainer = document.getElementById("jotform-container");
-    if (!formContainer) {
-      formContainer = document.createElement("div");
-      formContainer.id = "jotform-container";
-      const sectionContainer = document.querySelector('.contact-form-container');
-      if (sectionContainer) {
-        sectionContainer.appendChild(formContainer);
-      }
-    }
-
-    // Create and add script after container exists
-    const script = document.createElement("script");
-    script.src = "https://form.jotform.com/jsform/243464146391155";
-    script.type = "text/javascript";
-    script.async = true;
-    script.crossOrigin = "anonymous";
-    
-    // Error handling for the script
-    script.onerror = (error) => {
-      console.error("Error loading JotForm script:", error);
-    };
-
-    // Wait for DOM to be ready before adding script
-    const addScript = () => {
-      document.head.appendChild(script);
-    };
-
-    if (document.readyState === 'complete') {
-      addScript();
-    } else {
-      window.addEventListener('load', addScript);
-    }
-    
-    return () => {
-      // Cleanup on unmount
-      window.removeEventListener('load', addScript);
-      if (script.parentNode) {
-        script.parentNode.removeChild(script);
-      }
-      if (formContainer && formContainer.parentNode) {
-        formContainer.parentNode.removeChild(formContainer);
-      }
-    };
-  }, []);
-
   return (
     <section className="py-20 px-6 bg-gray-50">
-      <div className="max-w-3xl mx-auto w-full">
+      <div className="max-w-3xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -65,8 +17,68 @@ export const Contact = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="bg-white p-8 rounded-xl shadow-lg contact-form-container"
+          className="bg-white p-8 rounded-xl shadow-lg"
         >
+          <iframe
+            id="JotFormIFrame-243464146391155"
+            title="Contact Form"
+            src="https://form.jotform.com/243464146391155"
+            style={{
+              minWidth: '100%',
+              height: '539px',
+              border: 'none',
+            }}
+            scrolling="no"
+          />
+          <script
+            type="text/javascript"
+            dangerouslySetInnerHTML={{
+              __html: `
+                var ifr = document.getElementById("JotFormIFrame-243464146391155");
+                if (ifr) {
+                  var src = ifr.src;
+                  var iframeParams = [];
+                  if (window.location.href && window.location.href.indexOf("?") > -1) {
+                    iframeParams = iframeParams.concat(window.location.href.substr(window.location.href.indexOf("?") + 1).split('&'));
+                  }
+                  if (src && src.indexOf("?") > -1) {
+                    iframeParams = iframeParams.concat(src.substr(src.indexOf("?") + 1).split("&"));
+                    src = src.substr(0, src.indexOf("?"))
+                  }
+                  iframeParams.push("isIframeEmbed=1");
+                  ifr.src = src + "?" + iframeParams.join('&');
+                }
+                window.handleIFrameMessage = function(e) {
+                  if (typeof e.data === 'object') { return; }
+                  var args = e.data.split(":");
+                  if (args.length > 2) { iframe = document.getElementById("JotFormIFrame-" + args[(args.length - 1)]); } else { iframe = document.getElementById("JotFormIFrame"); }
+                  if (!iframe) { return; }
+                  switch (args[0]) {
+                    case "scrollIntoView":
+                      iframe.scrollIntoView();
+                      break;
+                    case "setHeight":
+                      iframe.style.height = args[1] + "px";
+                      break;
+                    case "collapseErrorPage":
+                      if (iframe.clientHeight > window.innerHeight) {
+                        iframe.style.height = window.innerHeight + "px";
+                      }
+                      break;
+                    case "reloadPage":
+                      window.location.reload();
+                      break;
+                  }
+                  var isJotForm = (e.origin.indexOf("jotform") > -1) ? true : false;
+                  if(isJotForm && "contentWindow" in iframe && "postMessage" in iframe.contentWindow) {
+                    var urls = {"docurl":encodeURIComponent(document.URL),"referrer":encodeURIComponent(document.referrer)};
+                    iframe.contentWindow.postMessage(JSON.stringify({"type":"urls","value":urls}), "*");
+                  }
+                };
+                window.addEventListener("message", handleIFrameMessage, false);
+              `,
+            }}
+          />
         </motion.div>
       </div>
     </section>
