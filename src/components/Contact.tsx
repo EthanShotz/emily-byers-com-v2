@@ -5,17 +5,24 @@ export const Contact = () => {
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
+    const iframe = iframeRef.current;
+    if (!iframe) return;
+
+    // Set initial iframe parameters
+    const src = iframe.src;
+    const iframeParams = ['isIframeEmbed=1'];
+    
+    if (window.location.href && window.location.href.indexOf("?") > -1) {
+      iframeParams.push(window.location.href.substr(window.location.href.indexOf("?") + 1));
+    }
+    
+    iframe.src = `${src}${src.indexOf("?") > -1 ? "&" : "?"}${iframeParams.join("&")}`;
+
     const handleIFrameMessage = (e: MessageEvent) => {
       if (typeof e.data === 'object') return;
       
-      const iframe = iframeRef.current;
-      if (!iframe) return;
-
       const args = e.data.split(":");
-      if (args.length > 2) {
-        const iframe = document.getElementById("JotFormIFrame-243464146391155");
-        if (!iframe) return;
-      }
+      if (!iframe) return;
 
       switch (args[0]) {
         case "scrollIntoView":
@@ -66,18 +73,22 @@ export const Contact = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="bg-white p-8 rounded-xl shadow-lg"
         >
-          <iframe
-            ref={iframeRef}
-            id="JotFormIFrame-243464146391155"
-            title="Contact Form"
-            src="https://form.jotform.com/243464146391155"
-            style={{
-              minWidth: '100%',
-              height: '539px',
-              border: 'none'
-            }}
-            scrolling="no"
-          />
+          <div className="jotform-embed">
+            <iframe
+              ref={iframeRef}
+              id="JotFormIFrame-243464146391155"
+              title="Contact Form"
+              src="https://form.jotform.com/243464146391155"
+              style={{
+                minWidth: '100%',
+                height: '539px',
+                border: 'none'
+              }}
+              scrolling="no"
+              allowTransparency
+              allow="geolocation; microphone; camera"
+            />
+          </div>
         </motion.div>
       </div>
     </section>
