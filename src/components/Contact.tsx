@@ -1,58 +1,26 @@
 import { motion } from "framer-motion";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 
 export const Contact = () => {
-  const iframeRef = useRef<HTMLIFrameElement>(null);
-
   useEffect(() => {
-    const iframe = iframeRef.current;
-    if (!iframe) return;
+    // Create script element
+    const script = document.createElement("script");
+    script.src = "https://form.jotform.com/jsform/243464146391155";
+    script.type = "text/javascript";
+    script.async = true;
 
-    // Set initial iframe parameters
-    const src = iframe.src;
-    const iframeParams = ['isIframeEmbed=1'];
-    
-    if (window.location.href && window.location.href.indexOf("?") > -1) {
-      iframeParams.push(window.location.href.substr(window.location.href.indexOf("?") + 1));
+    // Find the form container and append script
+    const formContainer = document.getElementById("jotform-container");
+    if (formContainer) {
+      formContainer.appendChild(script);
     }
-    
-    iframe.src = `${src}${src.indexOf("?") > -1 ? "&" : "?"}${iframeParams.join("&")}`;
 
-    const handleIFrameMessage = (e: MessageEvent) => {
-      if (typeof e.data === 'object') return;
-      
-      const args = e.data.split(":");
-      if (!iframe) return;
-
-      switch (args[0]) {
-        case "scrollIntoView":
-          iframe.scrollIntoView();
-          break;
-        case "setHeight":
-          iframe.style.height = `${args[1]}px`;
-          break;
-        case "collapseErrorPage":
-          if (iframe.clientHeight > window.innerHeight) {
-            iframe.style.height = `${window.innerHeight}px`;
-          }
-          break;
-        case "reloadPage":
-          window.location.reload();
-          break;
-      }
-
-      const isJotForm = e.origin.indexOf("jotform") > -1;
-      if (isJotForm && iframe.contentWindow) {
-        const urls = {
-          docurl: encodeURIComponent(document.URL),
-          referrer: encodeURIComponent(document.referrer)
-        };
-        iframe.contentWindow.postMessage(JSON.stringify({ type: "urls", value: urls }), "*");
+    // Cleanup
+    return () => {
+      if (formContainer && script) {
+        formContainer.removeChild(script);
       }
     };
-
-    window.addEventListener("message", handleIFrameMessage);
-    return () => window.removeEventListener("message", handleIFrameMessage);
   }, []);
 
   return (
@@ -73,22 +41,7 @@ export const Contact = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="bg-white p-8 rounded-xl shadow-lg"
         >
-          <div className="jotform-embed">
-            <iframe
-              ref={iframeRef}
-              id="JotFormIFrame-243464146391155"
-              title="Contact Form"
-              src="https://form.jotform.com/243464146391155"
-              style={{
-                minWidth: '100%',
-                height: '539px',
-                border: 'none'
-              }}
-              scrolling="no"
-              allowTransparency
-              allow="geolocation; microphone; camera"
-            />
-          </div>
+          <div id="jotform-container"></div>
         </motion.div>
       </div>
     </section>
