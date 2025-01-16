@@ -3,6 +3,15 @@ import { useEffect } from "react";
 
 export const Contact = () => {
   useEffect(() => {
+    // Create container first
+    let formContainer = document.getElementById("jotform-container");
+    if (!formContainer) {
+      formContainer = document.createElement("div");
+      formContainer.id = "jotform-container";
+      document.body.appendChild(formContainer);
+    }
+
+    // Create and add script after container exists
     const script = document.createElement("script");
     script.src = "https://form.jotform.com/jsform/243464146391155";
     script.type = "text/javascript";
@@ -13,20 +22,21 @@ export const Contact = () => {
     script.onerror = (error) => {
       console.error("Error loading JotForm script:", error);
     };
-    
-    // Find or create container for the form
-    let formContainer = document.getElementById("jotform-container");
-    if (!formContainer) {
-      formContainer = document.createElement("div");
-      formContainer.id = "jotform-container";
-      document.body.appendChild(formContainer);
+
+    // Wait for DOM to be ready before adding script
+    const addScript = () => {
+      document.head.appendChild(script);
+    };
+
+    if (document.readyState === 'complete') {
+      addScript();
+    } else {
+      window.addEventListener('load', addScript);
     }
     
-    // Append script to the document head instead of the container
-    document.head.appendChild(script);
-
     return () => {
       // Cleanup on unmount
+      window.removeEventListener('load', addScript);
       if (script.parentNode) {
         script.parentNode.removeChild(script);
       }
