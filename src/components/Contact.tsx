@@ -1,9 +1,34 @@
 import { motion } from "framer-motion";
+import { useEffect } from "react";
 
 export const Contact = () => {
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://form.jotform.com/jsform/243464146391155";
+    script.type = "text/javascript";
+    script.async = true;
+    
+    // Find or create container for the form
+    let formContainer = document.getElementById("jotform-container");
+    if (!formContainer) {
+      formContainer = document.createElement("div");
+      formContainer.id = "jotform-container";
+    }
+    
+    // Append script to the container
+    formContainer.appendChild(script);
+
+    return () => {
+      // Cleanup on unmount
+      if (formContainer && script) {
+        formContainer.removeChild(script);
+      }
+    };
+  }, []);
+
   return (
-    <section className="py-20 px-6 bg-gray-50 min-h-screen flex flex-col">
-      <div className="max-w-3xl mx-auto w-full flex flex-col flex-grow">
+    <section className="py-20 px-6 bg-gray-50">
+      <div className="max-w-3xl mx-auto w-full">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -17,70 +42,9 @@ export const Contact = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5, delay: 0.2 }}
-          className="bg-white p-8 rounded-xl shadow-lg flex-grow flex flex-col h-full"
+          className="bg-white p-8 rounded-xl shadow-lg"
         >
-          <iframe
-            id="JotFormIFrame-243464146391155"
-            title="Contact Form"
-            src="https://form.jotform.com/243464146391155"
-            style={{
-              width: '100%',
-              height: '100%',
-              border: 'none',
-              minHeight: '600px',
-              flex: '1 1 auto'
-            }}
-            scrolling="no"
-          />
-          <script
-            type="text/javascript"
-            dangerouslySetInnerHTML={{
-              __html: `
-                var ifr = document.getElementById("JotFormIFrame-243464146391155");
-                if (ifr) {
-                  var src = ifr.src;
-                  var iframeParams = [];
-                  if (window.location.href && window.location.href.indexOf("?") > -1) {
-                    iframeParams = iframeParams.concat(window.location.href.substr(window.location.href.indexOf("?") + 1).split('&'));
-                  }
-                  if (src && src.indexOf("?") > -1) {
-                    iframeParams = iframeParams.concat(src.substr(src.indexOf("?") + 1).split("&"));
-                    src = src.substr(0, src.indexOf("?"))
-                  }
-                  iframeParams.push("isIframeEmbed=1");
-                  ifr.src = src + "?" + iframeParams.join('&');
-                }
-                window.handleIFrameMessage = function(e) {
-                  if (typeof e.data === 'object') { return; }
-                  var args = e.data.split(":");
-                  if (args.length > 2) { iframe = document.getElementById("JotFormIFrame-" + args[(args.length - 1)]); } else { iframe = document.getElementById("JotFormIFrame"); }
-                  if (!iframe) { return; }
-                  switch (args[0]) {
-                    case "scrollIntoView":
-                      iframe.scrollIntoView();
-                      break;
-                    case "setHeight":
-                      iframe.style.height = args[1] + "px";
-                      break;
-                    case "collapseErrorPage":
-                      if (iframe.clientHeight > window.innerHeight) {
-                        iframe.style.height = window.innerHeight + "px";
-                      }
-                      break;
-                    case "reloadPage":
-                      window.location.reload();
-                      break;
-                  }
-                  var isJotForm = (e.origin.indexOf("jotform") > -1) ? true : false;
-                  if(isJotForm && "contentWindow" in iframe && "postMessage" in iframe.contentWindow) {
-                    var urls = {"docurl":encodeURIComponent(document.URL),"referrer":encodeURIComponent(document.referrer)};
-                    iframe.contentWindow.postMessage(JSON.stringify({"type":"urls","value":urls}), "*");
-                  }
-                };
-                window.addEventListener("message", handleIFrameMessage, false);
-              `,
-            }}
-          />
+          <div id="jotform-container" />
         </motion.div>
       </div>
     </section>
