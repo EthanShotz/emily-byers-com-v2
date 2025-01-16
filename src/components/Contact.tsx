@@ -1,6 +1,27 @@
 import { motion } from "framer-motion";
+import { useEffect } from "react";
 
 export const Contact = () => {
+  useEffect(() => {
+    // Create and append the JotForm script
+    const script = document.createElement("script");
+    script.src = "https://form.jotform.com/jsform/243464146391155";
+    script.type = "text/javascript";
+    
+    // Find or create a container for the form
+    const formContainer = document.getElementById("jotform-container");
+    if (formContainer) {
+      formContainer.appendChild(script);
+    }
+
+    // Cleanup function
+    return () => {
+      if (formContainer && script) {
+        formContainer.removeChild(script);
+      }
+    };
+  }, []);
+
   return (
     <section className="py-20 px-6 bg-gray-50">
       <div className="max-w-3xl mx-auto">
@@ -19,18 +40,7 @@ export const Contact = () => {
           transition={{ duration: 0.5, delay: 0.2 }}
           className="bg-white p-8 rounded-xl shadow-lg"
         >
-          <iframe
-            id="JotFormIFrame-243464146391155"
-            title="Contact Form"
-            src="https://form.jotform.com/243464146391155"
-            style={{
-              minWidth: '100%',
-              height: '539px',
-              border: 'none'
-            }}
-            scrolling="no"
-            allow="fullscreen"
-          />
+          <div id="jotform-container"></div>
         </motion.div>
       </div>
     </section>
